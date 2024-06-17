@@ -11,6 +11,10 @@ namespace Online_BookStore.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Books> Books_List { get; set; }
+        public DbSet<BookImages> Books_List_Images { get; set; }
+
+
 
 
 
@@ -32,9 +36,24 @@ namespace Online_BookStore.Data
 
                 );
 
+            modelBuilder.Entity<Books>().HasData(
+              new Books { Book_Id = 1, Title = "DS101", Description="Programming subject", ISBN="KS454574JDHFBS", Price= 50,
+              
+              PublishDate= DateOnly.Parse("2023-12-10"), Publisher ="Sir Ervin Santos",Stock= 15, Category_ID= 2}
+          
 
-                
+
+
+
+
+              );
+
+
+
         }
+
+
+
 
 
     }

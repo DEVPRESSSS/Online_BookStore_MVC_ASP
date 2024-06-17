@@ -26,7 +26,25 @@ namespace Online_BookStore.Controllers
 
             return View();
         }
-        public IActionResult Edit(int? Id)
+
+		[HttpPost]
+
+		public IActionResult Create(Category obj)
+		{
+			if (ModelState.IsValid)
+			{
+
+				_db.Categories.Add(obj);
+				_db.SaveChanges();
+				TempData["success"] = "Created successfully";
+
+				return RedirectToAction("Index");
+
+			}
+			return View(obj);
+
+		}
+		public IActionResult Edit(int? Id)
         {
             if((Id == null) || (Id==0))
             {
@@ -42,6 +60,9 @@ namespace Online_BookStore.Controllers
 
             return View(obj);
         }
+
+
+
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
@@ -56,13 +77,14 @@ namespace Online_BookStore.Controllers
                 {
                     _db.Categories.Update(obj);
                     _db.SaveChanges();
+                    TempData["success"] = $"Record {obj.Category_ID} updated successfully";
                 }
                 else
                 {
-                    return Json(new { success = false, message = "Error while updating" });
+                    TempData["info"] = $"There is no changes has been made";
                 }
 
-               
+
 
                 return RedirectToAction("Index");   
             }
@@ -75,50 +97,28 @@ namespace Online_BookStore.Controllers
 
 
 
-        [HttpPost]
-
-        public IActionResult Create(Category obj)
-        {
-            if(ModelState.IsValid)
-            {
-
-                _db.Categories.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-
-            }
-            return View(obj);
-            
-        }
+     
 
         //This action will check the Category ID if it is valid or not
         public IActionResult Delete(int?id)
         {
             Category? obj_todelete= _db.Categories.Find(id);
 
-            if (obj_todelete == null)
-            {
-                return Json(new { success = false, message = "Error while deleting" });
-            }
-            else
-            {
-                _db.Categories.Remove(obj_todelete);
-                _db.SaveChanges();
+			if (obj_todelete == null)
+			{
+				return Json(new { success = false, message = "Error while deleting" });
 
+			}
 
-            }
+			_db.Categories.Remove(obj_todelete);
+			_db.SaveChanges();
+			//TempData["success"] = "Record deleted successfully";
 
+			return Json(new { success = true, message = "Record deleted successfully" });
+		}
 
-
-
-
-            return RedirectToAction("Index");
-
-
-        }
-
-        //This region fetch the API DATA from my database
-        [HttpGet]
+		//This region fetch the API DATA from my database
+		[HttpGet]
         public IActionResult GetAll()
         {
 
