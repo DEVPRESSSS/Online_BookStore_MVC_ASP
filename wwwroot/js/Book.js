@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 dataTable = $('#myTable').DataTable({
     "ajax": {
-        url: '/Book/GetALLBooks', // Ensure correct URL
+        url: '/Admin/Book/GetALLBooks', // Ensure correct URL
         dataSrc: 'data', // Ensure correct data source property
         cache: false, // Disable caching
         beforeSend: function (xhr) {
@@ -23,15 +23,20 @@ dataTable = $('#myTable').DataTable({
         { data: 'publishDate', "width": "10%" },
         { data: 'publisher', "width": "10%" },
         { data: 'stock', "width": "10%" },
-        { data: 'category_ID', "width": "5%" },
         {
+            data: 'category',
+            render: function (data) {
+                return data.category_Name;
+            },
+            "width": "15%"
+        },        {
             data: 'book_Id',
             "render": function (data) {
                 return `<div class="d-flex justify-content-center btn-group" role="group">
-                            <a href="/book/edit/${data}" class="btn btn-info">
+                            <a href="Book/Edit/${data}" class="btn btn-info">
                                 <i class="bi bi-pencil-square"></i> EDIT
                             </a>
-                            <a onclick="Delete('/book/delete/${data}')" class="btn btn-danger">
+                            <a onclick="Delete('/Admin/Book/Delete/${data}')" class="btn btn-danger">
                                 <i class="bi bi-trash3"></i> DELETE
                             </a>
                         </div>`;
@@ -44,7 +49,6 @@ dataTable = $('#myTable').DataTable({
 
 
 function Delete(url) {
-
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -59,10 +63,17 @@ function Delete(url) {
                 url: url,
                 type: 'DELETE',
                 success: function (data) {
-                    dataTable.ajax.reload();
-                    toastr.success(data.message);
+                    if (data.success) {
+                        dataTable.ajax.reload();
+                        toastr.success(data.message);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    toastr.error("Error while deleting record.");
                 }
-            })
+            });
         }
     });
 }

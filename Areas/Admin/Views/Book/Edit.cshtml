@@ -1,0 +1,128 @@
+﻿@model BookVM
+
+
+<div class="container shadow-lg p-2 border rounded-2">
+
+
+	<div class="card border-0">
+		<div class="row pb-2">
+			<h2 class="text-dark text-center m-2">Edit Books</h2>
+
+		</div>
+
+		<div class="card-body p-4 d-flex ">
+
+			<div class="col-10" style="margin-right:15px;">
+
+
+				<form method="post" class="row" enctype="multipart/form-data">
+					<input asp-for="Books.Book_Id" hidden />
+					<div class="border p-2 mt-4">
+
+
+						<div class="mb-2">
+							<label asp-for="Books.Title" class="p-0"></label>
+							<input asp-for="Books.Title" class="form-control" />
+							<span asp-validation-for="Books.Title" class="text-danger"></span>
+						</div>
+						<div class="mb-2">
+							<label asp-for="Books.Description" class="p-0"></label>
+							<input asp-for="Books.Description" class="form-control" />
+							<span asp-validation-for="Books.Description" class="text-danger"></span>
+						</div>
+						<div class="mb-2">
+							<label asp-for="Books.ISBN" class="p-0"></label>
+							<input asp-for="Books.ISBN" class="form-control" />
+							<span asp-validation-for="Books.ISBN" class="text-danger"></span>
+						</div>
+						<div class="mb-2">
+							<label asp-for="Books.Price" class="p-0"></label>
+							<input asp-for="Books.Price" class="form-control" />
+							<span asp-validation-for="Books.Price" class="text-danger"></span>
+						</div>
+
+
+						<div class="mb-2">
+							<label asp-for="Books.PublishDate" class="p-0"></label>
+							<input asp-for="Books.PublishDate" class="form-control" type="date" />
+							<span asp-validation-for="Books.PublishDate" class="text-danger"></span>
+						</div>
+						<div class="mb-2">
+							<label asp-for="Books.Publisher" class="p-0"></label>
+							<input asp-for="Books.Publisher" class="form-control" />
+							<span asp-validation-for="Books.Publisher" class="text-danger"></span>
+						</div>
+						<div class="mb-2">
+							<label asp-for="Books.Stock" class="p-0"></label>
+							<input asp-for="Books.Stock" class="form-control" />
+							<span asp-validation-for="Books.Stock" class="text-danger"></span>
+						</div>
+
+						<div class="mb-2">
+							<label asp-for="Books.Category_ID" class="p-0">Category</label>
+							<select asp-for="@Model.Books.Category_ID" class="form-control" asp-items="@Model.CategoryList">
+								<option value="">-- Select Category --</option>
+							</select>
+							<span asp-validation-for="Books.Category_ID" class="text-danger"></span>
+						</div>
+						<div class="mb-2">
+							<label asp-for="Books.Book_Images" class="p-0"></label>
+							<input type="file" name="files" asp-for="Books.Book_Images" class="form-control" multiple />
+							<span asp-validation-for="Books.Book_Images" class="text-danger"></span>
+						</div>
+						<div class="row">
+							<div class="col-6 col-md-3">
+								<button type="submit" class="btn btn-primary form-control">Update</button>
+							</div>
+							<div class="col-6 col-md-3">
+								<a asp-controller="Book" asp-action="Index" class="btn btn-outline-secondary border form-control">Back to list</a>
+							</div>
+						</div>
+
+
+
+					</div>
+
+				</form>
+
+
+
+			</div>
+
+			<div class="col-2">
+				@if (Model.Books.Book_Images != null)
+				{
+					@foreach (var image in Model.Books.Book_Images)
+					{
+						<div class="p-2 mt-2 text-center mb=2">
+
+							<img src="@image.Image_Url" class="w-100" alt="Alternate Text" />
+						</div>
+
+						<div class="d-flex justify-content-center">
+							<form asp-controller="Book" asp-action="DeleteImage" method="post">
+								<input type="hidden" name="imageId" value="@image.Image_ID" />
+								<input type="hidden" name="bookId" value="@Model.Books.Book_Id" />
+
+								<button type="submit" class="btn btn-danger rounded-2 ">Remove</button>
+							</form>
+						</div>
+
+					}
+
+
+				}
+
+
+
+			</div>
+
+
+		</div>
+	</div>
+
+
+</div>
+
+
+

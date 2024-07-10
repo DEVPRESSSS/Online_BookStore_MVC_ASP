@@ -1,0 +1,66 @@
+﻿@model List<Books>
+
+
+<div class="container bg-light shadow-lg">
+	<div class="row pt-2 pb-2">
+		<div class="col-6">
+			<h2 class="text-start">Book List</h2>
+
+		</div>
+		<div class="col-6 d-flex justify-content-end">
+
+			<a class="btn btn-primary rounded-2" asp-area= "Admin"asp-controller="Book" asp-action="Create"><i class="bi bi-plus-circle"></i> CREATE NEW</a>
+		</div>
+
+	</div>
+	<table id="myTable" class="table table-bordered table-stripe bg-light">
+		<thead>
+			<tr class="text-center">
+				<th>
+					Book Id
+				</th>
+				<th>
+					Title
+				</th>
+				<th>
+					Description
+				</th>
+				<th>
+					ISBN
+				</th>
+				<th>
+					Price
+				</th>
+				<th>
+					PublishDate
+				</th>
+
+				<th>
+					Publisher
+				</th>
+
+
+				<th>
+					Stock
+				</th>
+
+				<th>
+					Category Name
+				</th>
+				
+				
+				<th>
+					Action
+				</th>
+				
+			</tr>
+		</thead>
+
+
+	</table>
+</div>
+
+
+@section Scripts {
+	<script src="~/js/Book.js"></script>
+}

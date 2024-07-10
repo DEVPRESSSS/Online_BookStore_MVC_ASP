@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Online_BookStore</title>
+    <title>@ViewData["Title"] - BOOKTIFY</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="icon" href="OnlineBookstore.ico" type="image/x-icon">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -25,23 +25,25 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-center">
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  text-white" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+                            <a class="nav-link  text-white" asp-area="Admin" asp-controller="Category" asp-action="Index">Categories</a>
                         </li>
                          <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">About Us</a>
+                            <a class="nav-link text-white" asp-area="Customer" asp-controller="Home" asp-action="Index">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Faqs</a>
+                            <a class="nav-link  text-white" asp-area="Customer" asp-controller="Home" asp-action="Privacy">Faqs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  text-white" asp-area="" asp-controller="Book" asp-action="Index">Book</a>
+                            <a class="nav-link  text-white" asp-area="Admin" asp-controller="Book" asp-action="Index">Book</a>
                         </li>
+                    
 
                         
                     </ul>
+                    <partial name="_LoginPartial"/>
                 </div>
             </div>
         </nav>

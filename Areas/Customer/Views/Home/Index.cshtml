@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Books>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="row p-2">
+    @foreach (var item in Model)
+    {
+        <div class="card border p-3 shadow border-top border-5 rounded" style="width: 18rem; display: flex; flex-direction: column; justify-content: space-evenly;">
+            @if (item.Book_Images != null && item.Book_Images.Count() > 0)
+            {
+                <img src="@item.Book_Images?.FirstOrDefault()?.Image_Url" class="card-img-top rounded w-100" alt="Book picture" style="object-fit: cover;">
+            }
+            else
+            {
+                <img src="/SrcImg/default.png" class="card-img-top rounded w-100" alt="Book picture" style="object-fit: cover; height: 200px;">
+            }
+            <div class="card-body d-flex flex-column">
+                <div class="mb-2">
+                    <h5 class="card-title text-center text-primary">@item.Title</h5>
+                    <p class="card-text center">₱@item.Price</p>
+                    <p class="card-text center">by @item.Publisher</p>
+                </div>
+
+               
+
+
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-6">
+                    <a asp-controller="Home" asp-action="Details" asp-route-Id="@item.Book_Id" class="btn btn-danger mt-auto align-self-center rounded-2 w-100 mt-2"><i class="bi bi-cart2"></i> Buy</a>
+
+                </div>
+                <div class="col-6">
+
+                    <a asp-controller="Home" asp-action="Details" asp-route-Id="@item.Book_Id" class="btn btn-info mt-auto align-self-center rounded-2 mt-2">Details</a>
+
+                </div>
+            </div>
+            
+        </div>
+    }
+</div>
