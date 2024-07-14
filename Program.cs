@@ -3,19 +3,21 @@ using Online_BookStore.DataAccess.Data;
 using Online_BookStore.DataAccess.Repository;
 using Online_BookStore.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Online_BookStore.Utilities;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<Online_BookStore.DataAccess.Data.ApplicationDbContext>(options=>
+builder.Services.AddDbContext<ApplicationDbContext>(options=>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<Online_BookStore.DataAccess.Data.ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

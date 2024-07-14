@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ using System.Net;
 namespace Online_BookStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-
+    //[Authorize(SD.Role_Admin)]
     public class BookController : Controller
     {
         private readonly IUnitOfWork unitOfWork;

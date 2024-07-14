@@ -1,0 +1,54 @@
+﻿@model List<Company>
+
+
+<div class="container bg-light shadow-lg">
+	<div class="row pt-2 pb-2">
+		<div class="col-6">
+			<h2 class="text-start">Company List</h2>
+
+		</div>
+		<div class="col-6 d-flex justify-content-end">
+
+			<a class="btn btn-primary rounded-2" asp-controller="Company" asp-action="Create"><i class="bi bi-plus-circle"></i> CREATE NEW</a>
+		</div>
+
+	</div>
+	<table id="myTable" class="table table-bordered table-stripe bg-light">
+		<thead>
+			<tr class="text-center">
+				<th>
+					Company ID
+				</th>
+				<th>
+					Company Name
+				</th>
+				<th>
+					Street Address
+				</th>
+				<th>
+					City
+				</th>
+				<th>
+					State
+				</th>
+				<th>
+					PostalCode
+				</th>
+				<th>
+					PhoneNumber
+				</th>
+
+				<th>
+					Action
+				</th>
+			</tr>
+		</thead>
+
+
+	</table>
+</div>
+
+
+@section Scripts {
+	<script src="~/js/Company.js"></script>
+}

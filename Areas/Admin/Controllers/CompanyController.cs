@@ -14,7 +14,7 @@ namespace Online_BookStore.Areas.Admin.Controllers
     [Area("Admin")]
    // [Authorize(SD.Role_Admin)]
 
-    public class CategoryController : Controller
+    public class CompanyController : Controller
     {
 
         private readonly ApplicationDbContext _db;
@@ -30,7 +30,7 @@ namespace Online_BookStore.Areas.Admin.Controllers
         }
         /*/
 
-		public CategoryController(IUnitOfWork db, ApplicationDbContext new_db)
+		public CompanyController(IUnitOfWork db, ApplicationDbContext new_db)
         {
             unitOfWork = db;
             _db = new_db;
@@ -51,7 +51,7 @@ namespace Online_BookStore.Areas.Admin.Controllers
 
         [HttpPost]
 
-        public IActionResult Create(Category obj)
+        public IActionResult Create(Company obj)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace Online_BookStore.Areas.Admin.Controllers
                 //_db.Categories.Add(obj);
                 //_db.SaveChanges();
 
-                unitOfWork.Category.Add(obj);
+                unitOfWork.Company.Add(obj);
                 unitOfWork.Save();
                 TempData["success"] = "Created successfully";
 
@@ -79,7 +79,7 @@ namespace Online_BookStore.Areas.Admin.Controllers
 			//Category? obj= _db.Categories.Find(Id);
 
 
-			Category? obj = unitOfWork.Category.GetFirstOrDefault(x => x.Category_ID == Id, tracked: false);
+			Company? obj = unitOfWork.Company.Get(x => x.Id == Id);
 
 
 			if (obj == null)
@@ -94,22 +94,22 @@ namespace Online_BookStore.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit(Category obj)
+        public IActionResult Edit(Company obj)
         {
             if (ModelState.IsValid)
             {
-				var originalCategory = _db.Categories.AsNoTracking().FirstOrDefault(c => c.Category_ID == obj.Category_ID);
-				if (originalCategory == null)
+				var SpecificCompany = _db.Company.AsNoTracking().FirstOrDefault(c => c.Id == obj.Id);
+				if (SpecificCompany == null)
                 {
                     return NotFound();
                 }
-                if (originalCategory.Category_Name != obj.Category_Name)
+                if (SpecificCompany.CompanyName != obj.CompanyName)
                 {
-					originalCategory.Category_Name = obj.Category_Name;
+                    SpecificCompany.CompanyName = obj.CompanyName;
 
-					unitOfWork.Category.Update(obj);
+					unitOfWork.Company.Update(obj);
                     unitOfWork.Save();
-                    TempData["success"] = $"Record {obj.Category_ID} updated successfully";
+                    TempData["success"] = $"Record {obj.Id} updated successfully";
                 }
                 else
                 {
@@ -135,7 +135,7 @@ namespace Online_BookStore.Areas.Admin.Controllers
         [HttpDelete]
         public IActionResult Delete(int? Id)
         {
-            Category? obj_todelete = unitOfWork.Category.Get(x => x.Category_ID == Id, includeProperties:"books");
+            Company? obj_todelete = unitOfWork.Company.Get(x => x.Id == Id);
 
             if (obj_todelete == null)
             {
@@ -146,7 +146,7 @@ namespace Online_BookStore.Areas.Admin.Controllers
 			
 
 
-			unitOfWork.Category.Remove(obj_todelete);
+			unitOfWork.Company.Remove(obj_todelete);
             unitOfWork.Save();
             //TempData["success"] = "Record deleted successfully";
 
@@ -158,9 +158,9 @@ namespace Online_BookStore.Areas.Admin.Controllers
         public IActionResult GetAll()
         {
 
-            List<Category> _categories = unitOfWork.Category.GetAll().ToList();
+            List<Company> _companies = unitOfWork.Company.GetAll().ToList();
 
-            return Json(new { data = _categories });
+            return Json(new { data = _companies });
         }
     }
 }
