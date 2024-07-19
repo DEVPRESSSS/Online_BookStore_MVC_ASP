@@ -1,5 +1,4 @@
-﻿@model Books
-
+﻿@model ShoppingCart
 
 <style>
     .carousel-control-prev-icon,
@@ -7,109 +6,85 @@
         filter: invert(1);
     }
 </style>
+<form method="post">
 
-<div class="container shadow-lg rounded-4 mt-4 w-100 bg-body-secondary" style="height:700px;">
-    <input asp-for="Book_Id" hidden />
-
-    <div class="row bg-primary mt-lg-4 rounded-2 d-flex">
-        <div class="col-6">
-            <h4 class="text-end p-2 text-light mt-2">@Model.Title</h4>
-            <h6 class="text-end text-light"> <i> By @Model.Publisher</i></h6>
-
-        </div>
-        <div class="col-6 d-flex justify-content-end">
-            <a asp-action="Index" class="btn btn-outine-danger text-white mt-3 rounded-4 d-flex align-items-center justify-content-end" style="padding: 10px 20px; width: 80px; height: 50px;">
+    <div class="container shadow-lg rounded-4 mt-4 w-100 bg-body-secondary" style="height:700px;">
+        <div class="row bg-primary mt-lg-4 rounded-2 d-flex">
+            <div class="col-6">
+                <h4 class="text-end p-2 text-light mt-2">@Model.Book_Product?.Title</h4>
+                <h6 class="text-end text-light"><i> By @Model.Book_Product?.Publisher</i></h6>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <a asp-action="Index" class="btn btn-outine-danger text-white mt-3 rounded-4 d-flex align-items-center justify-content-end" style="padding: 10px 20px; width: 80px; height: 50px;">
                     <i class="bi bi-arrow-left-square fs-2"></i>
-            </a>
-            
-           
-
+                </a>
+            </div>
         </div>
-        
-    </div>
 
-    <div class="row h-75 mt-2 p-4">
-        
-        <div class="col-6 p-2 d-flex justify-content-center align-items-center mt-4">
-            <div id="carouselExampleIndicators" class="carousel slide w-50">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    @if (Model.Book_Images != null && Model.Book_Images.Any())
-                    {
-                        var isActive = true;
-                        @foreach (var image in Model.Book_Images)
+        <div class="row h-75 mt-2 p-4">
+            <div class="col-6 p-2 d-flex justify-content-center align-items-center mt-4">
+                <div id="carouselExampleIndicators" class="carousel slide w-50">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        @if (Model.Book_Product?.Book_Images?.Any() == true)
                         {
-                            <div class="carousel-item @(isActive ? "active" : "")">
-                                <img src="@image.Image_Url" class="d-block w-100 rounded-2 mb-2"  alt="Book picture" style="object-fit: contain; height: 500px;" />
-                            </div>
- 
-                            isActive = false;
+                            var isActive = true;
+                            @foreach (var image in Model.Book_Product.Book_Images)
+                            {
+                                <div class="carousel-item @(isActive ? "active" : "")">
+                                    <img src="@image.Image_Url" class="d-block w-100 rounded-2 mb-2" alt="Book picture" style="object-fit: contain; height: 500px;" />
+                                </div>
+                                isActive = false;
+                            }
                         }
+                        else
+                        {
+                            <div class="carousel-item active">
+                                <img src="/SrcImg/default.png" class="w-25 rounded-2" alt="Book picture" />
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-6 mt-4 shadow-lg rounded-4">
+                <div class="row p-1 py-0 mt-4">
+                    <h5 class="text-lg-start mt-4 mb-2"><i class="bi bi-info-circle fs-2"></i> @Model.Book_Product?.Description</h5>
+                    <h5 class="text-lg-start mt-4 mb-2"><i class="bi bi-book fs-2"></i> @Model.Book_Product?.ISBN</h5>
+                    @if (Model.Book_Product?.Stock != 0)
+                    {
+                        <h5 class="text-start mt-4 mb-2"><i class="bi bi-bookshelf fs-2"></i><span class="text-success"> @Model.Book_Product?.Stock available</span></h5>
                     }
                     else
                     {
-                        <div class="carousel-item active">
-                            <img src="/SrcImg/default.png" class="w-25 rounded-2" alt="Book picture" />
-                        </div>
+                        <h5 class="text-start text-danger mt-2 mb-2">Not Available</h5>
                     }
+                    <h1 class="text-center mt-4 text-danger" style="font-weight:bold;"><i class="bi bi-tag"></i>₱<span> @Model.Book_Product?.Price</span></h1>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <div class="row d-flex align-content-start p-2 mt-4" style="height:230px;">
+                        <div class="input-group mb-3 w-50">
+                            <span class="input-group-text bg-primary text-white" id="basic-addon1">Qty</span>
+                            <input asp-for="ProductId" hidden />
+                            <input asp-for="count" type="number" class="form-control rounded-1 border-2 border-primary" aria-label="Username" aria-describedby="basic-addon1" placeholder="1">
+                        </div>
+                        <div class="col-12 p-2 h-50 d-flex flex-column align-items-end">
+                            <div class="w-100 mt-auto">
+                                <button type="submit" class="btn btn-success w-100 rounded-2">PLACE ORDER</button>
+                            </div>
+                        </div>
+                </div>
             </div>
-
-            
         </div>
-        <div class="col-6 mt-4 shadow-lg rounded-4">
-            <div class="row p-1 py-0 mt-4">
-
-                <h5 class="text-lg-start mt-4 mb-2"><i class="bi bi-info-circle fs-2"></i> @Model.Description</h5>
-
-
-
-                <h5 class="text-lg-start mt-4 mb-2"><i class="bi bi-book fs-2"></i> @Model.ISBN</em></h5>
-
-
-                @if(Model.Stock != 0)
-                {
-                    <h5 class="text-start mt-4 mb-2"><i class="bi bi-bookshelf fs-2"></i><span class="text-success"> @Model.Stock available</span></h5>
-
-                }
-                else
-                {
-
-                    <h5 class="text-start text-danger mt-2 mb-2"> Not Available</h5>
-
-                }
-                <h1 class="text-center mt-4 text-danger" style="font-weight:bold;"><i class="bi bi-tag"></i>₱<span> @Model.Price</span></h1>
-               
-
-            </div>
-            <div class="row d-flex  align-content-start p-2 mt-4" style="height:230px;">
-                <div class="input-group mb-3 w-50">
-                    <span class="input-group-text bg-primary text-white" id="basic-addon1">Qty</span>
-                    <input type="number" class="form-control rounded-1 border-2 border-primary" aria-label="Username" aria-describedby="basic-addon1" placeholder="1">
-                </div>
-                <div class="col-12 p-2 h-50 d-flex flex-column align-items-end">
-                    <div class="w-100 mt-auto">
-                        <button type="button" class="btn btn-success w-100 rounded-2">PLACE ORDER</button>
-                    </div>
-                </div>
-
-
-            </div>
-         
-        </div>
-
-     
     </div>
-</div>
+</form>

@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Online_BookStore.DataAccess.Repository;
 using Online_BookStore.DataAccess.Repository.IRepository;
 using Online_BookStore.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Online_BookStore.Controllers
 {
@@ -31,24 +33,56 @@ namespace Online_BookStore.Controllers
         }
 
 
-        public IActionResult Details(int? Id)
+        public IActionResult Details(int Id)
         {
 
-            if(Id == null)
+            ShoppingCart cart = new()
             {
 
-                return NotFound();
-            }
+                Book_Product = _unitOfWork.Book.Get(x => x.Book_Id == Id, includeProperties: "category,Book_Images"),
+                count = 1,
+                ProductId = Id
 
-            Books book = _unitOfWork.Book.Get(x => x.Book_Id == Id, includeProperties: "category,Book_Images");
-            if (book == null)
-            {
-                return NotFound();
-            }
 
-            return View(book);
+            };
+
+            return View(cart);
         }
 
+      
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            //It will claim or retrieve user identity
+            var claimUserIdentity = (ClaimsIdentity)User.Identity;
+            //
+            var userId = claimUserIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            shoppingCart.ApplicationUserId=userId;
+            //Retrieve the userId from the ShoppingCart table and the productId(Book Table)
+            var cartFromDb= _unitOfWork.ShoppingCart.Get(x=>x.ApplicationUserId==userId && x.ProductId==shoppingCart.ProductId);
+
+            if(cartFromDb!=null)
+            {
+                cartFromDb.count += shoppingCart.count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+
+                TempData["success"] = "Order updated Successfully";
+
+            }
+            else
+            {
+
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                TempData["success"] = "Order placed Successfully";
+            }
+
+            _unitOfWork.Save();
+
+
+            return RedirectToAction(nameof(Index));
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
