@@ -1,3 +1,73 @@
-﻿
+﻿@model ShoppingCartVM
 
-<h1>My Cart</h1>
+
+<form method="post">
+    <div class="container p-2 shadow-sm">
+        <div class="col-10  w-100">
+
+            <div class="row bg-primary p-3">
+                <div class="col-6 d-flex align-items-center">
+                    <h4 class="text-white">Your Cart List</h4>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary text-white p-2 rounded-2">CONTINUE SHOPPING</a>
+                </div>
+            </div>
+            @foreach(var item in Model.ShoppingCartlist)
+            {
+                <div class="row d-flex justify-content-center align-items-center mt-lg-4">
+
+                    <div class="col-3 p-2">
+
+
+                        <img src="@item.Book_Product?.Book_Images?.FirstOrDefault()?.Image_Url" style="width:150px;" />
+
+
+                    
+                    </div>
+                    <div class="col-3">
+
+                        <h4>@item.Book_Product?.Title</h4>
+
+                        <h6>@item.Book_Product?.Description</h6>
+
+
+                        <h3>@item.Book_Product?.Price</h3>
+                        <h4> x @item.count</h4>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+                            <a asp-action="MinusQty" asp-route-shoppingId="@item.ShoppingId" class="btn btn-danger rounded-2"><i class="bi bi-dash"></i> </a>
+                            <a asp-action="AddQty" asp-route-shoppingId="@item.ShoppingId" class="btn btn-info rounded-2"> <i class="bi bi-plus "></i></a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <a class="btn btn-outline-danger  rounded-2" style="margin-left:100px;"> <i class="bi bi-trash "></i> Cancel Order</a>
+
+                   
+                    </div>
+                    <hr style="width: 95%;">
+
+
+                </div>
+
+            }
+            <div class="row p-3 ">
+                <div class="col-6 d-flex justify-content-sm-start align-items-center">
+                    <h4>Order Total: <span>$@Model.OrderTotal.ToString("c")</span></h4>
+                </div>
+                <div class="col-6 d-flex justify-content-end align-items-center">
+
+                    <a class="btn btn-info p-3 rounded-2" style="width:180px;">Order Summary</a>
+                </div>
+            </div>
+        
+
+
+        </div>
+
+
+ 
+    </div>
+</form>

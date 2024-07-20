@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Online_BookStore.DataAccess.Repository;
 using Online_BookStore.DataAccess.Repository.IRepository;
 using Online_BookStore.Models;
@@ -63,12 +64,24 @@ namespace Online_BookStore.Controllers
             //Retrieve the userId from the ShoppingCart table and the productId(Book Table)
             var cartFromDb= _unitOfWork.ShoppingCart.Get(x=>x.ApplicationUserId==userId && x.ProductId==shoppingCart.ProductId);
 
-            if(cartFromDb!=null)
+            if(shoppingCart.count <=0)
             {
-                cartFromDb.count += shoppingCart.count;
-                _unitOfWork.ShoppingCart.Update(cartFromDb);
+                TempData["error"] = "Qty should not be less than 1";
+                return RedirectToAction(nameof(Index));
 
-                TempData["success"] = "Order updated Successfully";
+            }
+
+
+            if (cartFromDb!=null)
+            {
+               
+                    cartFromDb.count += shoppingCart.count;
+                    _unitOfWork.ShoppingCart.Update(cartFromDb);
+
+                    TempData["success"] = "Order updated Successfully";
+
+                
+               
 
             }
             else

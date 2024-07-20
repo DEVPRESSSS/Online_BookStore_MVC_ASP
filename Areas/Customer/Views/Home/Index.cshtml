@@ -26,7 +26,6 @@
                     <div class="mb-2">
                         <h5 class="card-title text-center text-primary">@item.Title</h5>
                         <h3 class="text-center mt-4 text-danger" style="font-weight:bold;"><i class="bi bi-tag"></i>₱<span> @item.Price</span></h3>
-                        <p class="card-text center">by @item.Publisher</p>
                     </div>
 
                
@@ -35,20 +34,11 @@
                 </div>
 
                 <div class="row d-flex justify-content-center">
-                    <!--
-
-                          <a asp-controller="Home" asp-action="Details" asp-route-Id="" class="btn btn-danger mt-auto align-self-center rounded-2 w-100 mt-2"><i class="bi bi-cart2"></i> Buy</a>
-
-
-                    -->
+                 
                     
                     <div class="col-6">
-                        <a class="btn btn-danger rounded-2 " id="login" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-cart2"></i> Buy</a>
 
-                    </div>
-                    <div class="col-6">
-
-                        <a asp-controller="Home" asp-action="Details" asp-route-Id="@item.Book_Id" class="btn btn-info mt-auto align-self-center rounded-2 mt-2">Details</a>
+                        <a asp-controller="Home" asp-action="Details" asp-route-Id="@item.Book_Id" class="btn btn-info mt-auto align-self-center rounded-2 mt-2"><i class="bi bi-cart2"></i> Buy</a>
 
                     </div>
                 </div>
@@ -58,34 +48,4 @@
     </div>
 </section>
 
-<section id="#Best" style="height:500px;" class="mt-2">
 
-    <div class="row p-2 d-flex h-100">
-         
-        <div class="col-4 h-100">
-               
-            <div class="card h-100 shadow-lg rounded-4 p-2">
-
-                asdad
-                
-
-            </div>
-              
-        </div>
-        <div class="col-4  h-100">
-            <div class="card h-100 shadow-lg rounded-4 p-2">
-
-                xxaas
-
-            </div>
-        </div>
-        <div class="col-4  h-100">
-            <div class="card h-100 shadow-lg rounded-4 p-2">
-
-                asdad
-
-            </div>
-
-        </div>
-    </div>
-</section>

@@ -34,15 +34,34 @@ namespace Online_BookStore.Areas.Customer.Controllers
 
             ShoppingCartVM = new()
             {
-                ShoppingCartlist= _unitOfWork.ShoppingCart.GetAll(u=>u.ApplicationUserId == userId, includeProperties: "Book_Product"),
-
+                ShoppingCartlist = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Book_Product"),
+                OrderTotal = 0
 
             };
 
+            foreach(var cart in ShoppingCartVM.ShoppingCartlist)
+            {
+                cart.ShoppingPrice = cart.Book_Product?.Price ?? 0; 
+                ShoppingCartVM.OrderTotal += cart.ShoppingPrice * cart.count; 
+            }
             return View(ShoppingCartVM);
 
 
         }
+
+        public IActionResult AddQty(int shoppingId)
+        {
+
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.ShoppingId == shoppingId);
+
+            cartFromDb.count += 1;
+            _unitOfWork.ShoppingCart.Update(cartFromDb);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
     }   
     
 }
