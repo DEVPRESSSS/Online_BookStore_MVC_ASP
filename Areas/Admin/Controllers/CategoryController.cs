@@ -12,7 +12,7 @@ using System.Drawing;
 namespace Online_BookStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-   // [Authorize(SD.Role_Admin)]
+    [Authorize(Roles = "Admin")]
 
     public class CategoryController : Controller
     {

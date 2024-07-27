@@ -15,7 +15,7 @@ using System.Net;
 namespace Online_BookStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(SD.Role_Admin)]
+    [Authorize(Roles = "Admin")]
     public class BookController : Controller
     {
         private readonly IUnitOfWork unitOfWork;

@@ -32,7 +32,11 @@ namespace Online_BookStore.Controllers
         {
             return View();
         }
+        public IActionResult About()
+        {
 
+            return View();
+        }
 
         public IActionResult Details(int Id)
         {

@@ -5,11 +5,18 @@
     .carousel-control-next-icon {
         filter: invert(1);
     }
+
+    
+    .custom-input:focus {
+        border-color:black; 
+        outline: none;
+    }
+
 </style>
 <form method="post">
 
-    <div class="container shadow-lg rounded-4 mt-4 w-100 bg-body-secondary" style="height:700px;">
-        <div class="row bg-primary mt-lg-4 rounded-2 d-flex">
+    <div class="container shadow-lg mt-4 w-100 bg-body-secondary" style="height:700px;">
+        <div class="row bg-primary mt-lg-4  d-flex" style="border-radius:10px 10px 0px 0px">
             <div class="col-6">
                 <h4 class="text-end p-2 text-light mt-2">@Model.Book_Product?.Title</h4>
                 <h6 class="text-end text-light"><i> By @Model.Book_Product?.Publisher</i></h6>
@@ -21,7 +28,7 @@
             </div>
         </div>
 
-        <div class="row h-75 mt-2 p-4">
+        <div class="row mt-2 p-4">
             <div class="col-6 p-2 d-flex justify-content-center align-items-center mt-4">
                 <div id="carouselExampleIndicators" class="carousel slide w-50">
                     <div class="carousel-indicators">
@@ -58,29 +65,31 @@
                     </button>
                 </div>
             </div>
-            <div class="col-6 mt-4 shadow-lg rounded-4">
+            <div class="col-6 mt-4 shadow-sm " style="border-radius:50px 0px 50px 0px;">
                 <div class="row p-1 py-0 mt-4">
-                    <h5 class="text-lg-start mt-4 mb-2"><i class="bi bi-info-circle fs-2"></i> @Model.Book_Product?.Description</h5>
-                    <h5 class="text-lg-start mt-4 mb-2"><i class="bi bi-book fs-2"></i> @Model.Book_Product?.ISBN</h5>
+                    <h4 class="text-center mt-4 mb-2"> @Model.Book_Product?.Title</h4>
+
+                    <h5 class="text-lg-start mt-4 mb-2"> @Model.Book_Product?.Description</h5>
+                    <h5 class="text-lg-start mt-4 mb-2"> @Model.Book_Product?.ISBN</h5>
                     @if (Model.Book_Product?.Stock != 0)
                     {
-                        <h5 class="text-start mt-4 mb-2"><i class="bi bi-bookshelf fs-2"></i><span class="text-success"> @Model.Book_Product?.Stock available</span></h5>
+                        <h5 class="text-start mt-4 mb-2"><span class="text-success"> @Model.Book_Product?.Stock available</span></h5>
                     }
                     else
                     {
                         <h5 class="text-start text-danger mt-2 mb-2">Not Available</h5>
                     }
-                    <h1 class="text-center mt-4 text-danger" style="font-weight:bold;"><i class="bi bi-tag"></i>₱<span> @Model.Book_Product?.Price</span></h1>
+                    <h1 class="text-center mt-4 text-danger" style="font-weight:bold;">₱<span> @Model.Book_Product?.Price</span></h1>
                 </div>
                 <div class="row d-flex align-content-start p-2 mt-4" style="height:230px;">
                         <div class="input-group mb-3 w-50">
-                            <span class="input-group-text bg-primary text-white" id="basic-addon1">Qty</span>
+                            <span class="input-group-text bg-primary text-white" id="basic-addon1"style="border-radius:10px 0px 0px 10px">Qty</span>
                             <input asp-for="ProductId" hidden />
-                            <input asp-for="count" type="number" class="form-control rounded-1 border-2 border-primary" aria-label="Username" aria-describedby="basic-addon1" placeholder="1">
+                        <input asp-for="count" type="number" class="form-control border-2 border-primary custom" style="border-radius:0px 10px 10px 0px;" aria-label="Username" aria-describedby="basic-addon1" placeholder="1">
                         </div>
                         <div class="col-12 p-2 h-50 d-flex flex-column align-items-end">
                             <div class="w-100 mt-auto">
-                                <button type="submit" class="btn btn-primary shadow-sm w-100 rounded-2">PLACE ORDER</button>
+                                <button type="submit" class="btn btn-info shadow-sm w-100 rounded-4">PLACE ORDER</button>
                             </div>
                         </div>
                 </div>

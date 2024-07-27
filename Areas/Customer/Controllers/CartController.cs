@@ -35,14 +35,34 @@ namespace Online_BookStore.Areas.Customer.Controllers
             ShoppingCartVM = new()
             {
                 ShoppingCartlist = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Book_Product"),
-                OrderTotal = 0
+               OrderHeader= new()
 
             };
 
+
+
             foreach(var cart in ShoppingCartVM.ShoppingCartlist)
             {
-                cart.ShoppingPrice = cart.Book_Product?.Price ?? 0; 
-                ShoppingCartVM.OrderTotal += cart.ShoppingPrice * cart.count; 
+                cart.ShoppingPrice = cart.Book_Product?.Price ?? 0;
+
+                if (cart.count>cart.Book_Product?.Stock)
+                {
+
+                    ModelState.AddModelError("", $"Out of stock for {cart.Book_Product.Title}. Only {cart.Book_Product.Stock} left.");
+                    return View(ShoppingCartVM);
+
+
+                }
+                
+                
+
+                    ShoppingCartVM.OrderHeader.OrderTotal += cart.ShoppingPrice * cart.count;
+
+                
+
+
+
+
             }
             return View(ShoppingCartVM);
 
@@ -60,8 +80,50 @@ namespace Online_BookStore.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+        public IActionResult MinusQty(int shoppingId)
+        {
+
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.ShoppingId == shoppingId);
 
 
+            if (cartFromDb.count <= 1)
+            {
+                _unitOfWork.ShoppingCart.Remove(cartFromDb);
+
+
+            }
+            else
+            {
+                cartFromDb.count -= 1;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+
+            }
+           
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
+
+        public IActionResult Remove(int shoppingId)
+        {
+
+
+            var removeFromDb= _unitOfWork.ShoppingCart.Get(x=>x.ShoppingId == shoppingId);
+            _unitOfWork.ShoppingCart.Remove(removeFromDb);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        public IActionResult OrderSummary()
+        {
+            
+            return View();
+        }
+        
     }   
     
 }

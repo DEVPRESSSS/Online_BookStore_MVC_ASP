@@ -1,0 +1,104 @@
+﻿@model ApplicationUser
+<section>
+        <div class="container h-75 rounded-2">
+
+            <div class="col-12  shadow-sm h-100">
+                <div class="col-12 w-100 bg-primary p-2">
+                    <div class="row p-0">
+                        <div class="col-6 d-flex align-items-center">
+                            <h4 class="text-white">Order Summary</h4>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end align-items-center">
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary text-white p-2 rounded-2">BACK TO CART</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-2 d-flex" style="height:700px;">
+                    <div class="col-6">
+                      
+                        <h5 class="text-center">Shipment details</h5>
+
+                           
+                        <div class="row mt-lg-5">
+                            <div class="mb-4 d-flex align-items-center">
+                                <label class="col-form-label col-3 text-end p-0"> Street Address</label>
+                                <div class="col-9">
+                                    <input class="form-control rounded-2 "/>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-4 d-flex align-items-center">
+                                <label asp-for="City" class="col-form-label col-3 text-end"></label>
+                                <div class="col-9">
+                                    <input class="form-control rounded-2" asp-for="City" />
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-4 d-flex align-items-center">
+                                <label asp-for="State" class="col-form-label col-3 text-end"></label>
+                                <div class="col-9">
+                                    <input class="form-control rounded-2" asp-for="State" />
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-4 d-flex align-items-center">
+                                <label asp-for="PostalCode" class="col-form-label col-3 text-end"></label>
+                                <div class="col-9">
+                                    <input class="form-control rounded-2" asp-for="PostalCode" />
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex flex-column p-2">
+                        <h5 class="text-center">Order details</h5>
+
+                        <div class="row  mt-4  h-50 d-flex justify-content-center p-2" style="width:600px; margin-left:40px;">
+
+                            <div class="card" style="width: 30rem; ">
+                                 <div class="card-header bg-secondary d-flex">
+                                    
+                                     <div class="col-6">
+                                             <h5>Title</h5>
+                                             <p>Qty:  </p>
+                                     </div>
+
+                                      <div class="col-6">
+                                            <h5 class="text-end">Price</h5>
+                                       </div>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">An item</li>
+                                  
+                                </ul>
+                                <div class="card-footer d-flex bg-secondary ">
+                                    <div class="col-6 ">
+                                            <h5>Total(USD)</h5>
+
+
+                                    </div>
+                                    <div class="col-6">
+                                        <h5 class="text-end">$1000</h5>
+
+
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+           
+
+        </div>
+   
+</section>

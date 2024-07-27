@@ -1,6 +1,26 @@
 ﻿@model ShoppingCartVM
 
 
+@if  (ViewData.ModelState.ErrorCount > 0)
+{
+
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+
+
+}
+
+<div class="row">
+
+
+</div>
+
 <form method="post">
     <div class="container p-2 shadow-sm">
         <div class="col-10  w-100">
@@ -43,7 +63,7 @@
                         </div>
                     </div>
                     <div class="col-3">
-                        <a class="btn btn-outline-danger  rounded-2" style="margin-left:100px;"> <i class="bi bi-trash "></i> Cancel Order</a>
+                        <a class="btn btn-outline-danger rounded-2" asp-action="Remove" asp-route-shoppingId="@item.ShoppingId"style="margin-left:100px;"> <i class="bi bi-trash "></i> Cancel Order</a>
 
                    
                     </div>
@@ -53,15 +73,24 @@
                 </div>
 
             }
-            <div class="row p-3 ">
-                <div class="col-6 d-flex justify-content-sm-start align-items-center">
-                    <h4>Order Total: <span>$@Model.OrderTotal.ToString("c")</span></h4>
-                </div>
-                <div class="col-6 d-flex justify-content-end align-items-center">
+            @if (Model.ShoppingCartlist.Count() > 0)
+            {
+                <div class="row p-3 ">
+                    <div class="col-6 d-flex justify-content-sm-start align-items-center">
+                        <h4>Order Total: <span>$@Model.OrderHeader.OrderTotal.ToString("c")</span></h4>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end align-items-center">
 
-                    <a class="btn btn-info p-3 rounded-2" style="width:180px;">Order Summary</a>
+                        <a class="btn btn-info p-3 rounded-2" asp-controller= "Cart"asp-action="OrderSummary"style="width:180px;">Order Summary</a>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+               <h4 class="mt-2">Your cart list is empty yet:(</h4>
+                
+            }
+            
         
 
 
